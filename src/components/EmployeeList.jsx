@@ -1,9 +1,9 @@
+// components/EmployeeList.jsx
 import { useEffect, useState } from "react";
-// import { FaArrowRight, FaPlus, FaSearch } from "react-icons/fi";
 import { FaArrowRight, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
 import { deleteEmployee, getEmployees } from "../api/employeeApi";
 
-const EmployeeList = ({ onSelectEmployee, onAddNew }) => {
+const EmployeeList = ({ onSelectDetail, onSelectEdit, onAddNew }) => {
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -29,9 +29,7 @@ const EmployeeList = ({ onSelectEmployee, onAddNew }) => {
   };
 
   const filteredEmployees = employees.filter((emp) => {
-    const nameMatch = emp.full_name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    const nameMatch = emp.full_name.toLowerCase().includes(search.toLowerCase());
     const statusMatch = filter === "all" || emp.status === filter;
     return nameMatch && statusMatch;
   });
@@ -52,68 +50,49 @@ const EmployeeList = ({ onSelectEmployee, onAddNew }) => {
         <input
           type="text"
           placeholder="Pencarian nama..."
-          className="outline-none py-1"
+          className="outline-none py-1 w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <FaSearch className="text-gray-500 ml-auto items-end" />
+        <FaSearch className="text-gray-500 ml-2" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 mb-4">
+        {["all", "Active", "Non-Active"].map((status) => (
           <button
-            onClick={() => setFilter("all")}
-            className={`px-3 py-1 border rounded ${
-              filter === "all" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-3 py-1 border rounded ${filter === status ? "bg-blue-600 text-white" : "bg-gray-200"}`}
           >
-            SEMUA
+            {status.toUpperCase()}
           </button>
-          <button
-            onClick={() => setFilter("active")}
-            className={`px-3 py-1 border rounded ${
-              filter === "active" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            AKTIF
-          </button>
-          <button
-            onClick={() => setFilter("non-active")}
-            className={`px-3 py-1 border rounded ${
-              filter === "non-active" ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            NON-AKTIF
-          </button>
-        </div>
+        ))}
       </div>
 
       <div className="divide-y">
         {filteredEmployees.map((emp, idx) => (
-          <div
-            key={emp.id}
-            className="flex justify-between items-center py-3 hover:bg-gray-50 rounded transition"
-          >
-            <div className="flex items-center gap-4">
+          <div key={emp.id} className="flex justify-between items-center py-3 hover:bg-gray-50 rounded transition">
+            <div
+              className="flex items-center gap-4 cursor-pointer"
+              onClick={() => onSelectDetail(emp)}
+            >
               <img
-                src={`http://localhost:5000/uploads/${
-                  emp.photo || "default.jpg"
-                }`}
+                src={`http://localhost:5000/uploads/${emp.photo || "default.jpg"}`}
                 alt={emp.full_name}
                 className="w-12 h-12 object-cover rounded-full border"
               />
               <div>
-                <p className="font-medium">
-                  {idx + 1}. {emp.full_name}
-                </p>
-                <p className="text-sm text-gray-500">{emp.role || "-"}</p>
-                <span
-                  className={`inline-block text-xs mt-1 px-2 py-0.5 rounded ${
-                    emp.status === "active"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-red-100 text-red-600"
-                  }`}
-                >
+                <div>
+                  <p className="font-medium">
+                    {idx + 1}. {emp.full_name}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {emp.roles?.length > 0
+                      ? emp.roles.map((r) => r.name).join(", ")
+                      : "-"}
+                  </p>
+                </div>
+                <span className={`inline-block text-xs mt-1 px-2 py-0.5 rounded ${emp.status === "Active" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
                   {emp.status}
                 </span>
               </div>
@@ -121,7 +100,7 @@ const EmployeeList = ({ onSelectEmployee, onAddNew }) => {
 
             <div className="flex gap-2 items-center">
               <button
-                onClick={() => onSelectEmployee(emp)}
+                onClick={() => onSelectEdit(emp)}
                 className="text-blue-600 hover:text-blue-800"
               >
                 <FaArrowRight />

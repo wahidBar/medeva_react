@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/employees"; // Ganti jika backend kamu ada di alamat berbeda
 
-const getEmployees = async () => {
+export const getEmployees = async () => {
   try {
     const response = await axios.get(API_URL);
     return response.data;
@@ -11,28 +11,36 @@ const getEmployees = async () => {
     throw error;
   }
 };
+export const createEmployee = async (formData) => {
+  const res = await fetch("http://localhost:5000/api/employees", {
+    method: "POST",
+    body: formData,
+  });
 
-const createEmployee = async (employeeData) => {
-  try {
-    const response = await axios.post(API_URL, employeeData);
-    return response.data;
-  } catch (error) {
-    console.error("Gagal menambah karyawan:", error);
-    throw error;
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "Gagal menyimpan data karyawan");
   }
+
+  return await res.json();
 };
 
-const updateEmployee = async (id, employeeData) => {
-  try {
-    const response = await axios.put(`${API_URL}/${id}`, employeeData);
-    return response.data;
-  } catch (error) {
-    console.error("Gagal mengupdate karyawan:", error);
-    throw error;
+export const updateEmployee = async (id, formData) => {
+  const res = await fetch(`http://localhost:5000/api/employees/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "Gagal memperbarui data karyawan");
   }
+
+  return await res.json();
 };
 
-const deleteEmployee = async (id) => {
+
+export const deleteEmployee = async (id) => {
   try {
     await axios.delete(`${API_URL}/${id}`);
   } catch (error) {
@@ -41,4 +49,4 @@ const deleteEmployee = async (id) => {
   }
 };
 
-export { createEmployee, deleteEmployee, getEmployees, updateEmployee };
+// export { createEmployee, deleteEmployee, getEmployees, updateEmployee };

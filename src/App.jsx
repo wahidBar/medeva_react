@@ -4,8 +4,8 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import Layout from "/src/components/Layouts.jsx";
-import Login from "/src/pages/Login.jsx";
+import Layout from "./components/Layouts.jsx";
+import Login from "./pages/Login.jsx";
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem("token");

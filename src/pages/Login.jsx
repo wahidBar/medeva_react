@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    // const [photo, setPhoto] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -16,6 +17,7 @@ const Login = () => {
             });
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("photo", JSON.stringify(res.data.photo));
             navigate("/");
         } catch (err) {
             alert("Login gagal");
