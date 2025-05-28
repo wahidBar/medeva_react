@@ -9,10 +9,10 @@ In the project directory, you can run:
 ### `npm start`
 
 Dashboard Page:
-![alt text](image-1.png)
+![alt text](Dahsboard.png)
 
 Employee Page:
-![alt text](image.png)
+![alt text](EmployeePage.png)
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
