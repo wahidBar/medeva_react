@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createEmployee, updateEmployee } from "../api/employeeApi";
-import { provinces } from "../dummy_data/region";
+import { provinces } from "../helpers/dummy_data/region";
 import { roleOptions } from "../helpers/option/rolesOption";
 import { validationSchema } from "../helpers/validator/employeeValidation";
 
