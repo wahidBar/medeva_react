@@ -25,6 +25,9 @@ Fitur :
 
 1.  Simple Dashboard
 2.  Login
+    - user default:
+      username: admin
+      password: admin123456
 3.  CRUD and Show Detail Employee
 4.  Validation Yup
 

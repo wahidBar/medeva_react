@@ -17,7 +17,7 @@ const EmployeeForm = ({ employee, onSuccess, onCancel }) => {
     city: "",
     district: "",
     subdistrict: "",
-    address_detail: "",
+    address: "",
     username: "",
     email: "",
     password: "",
@@ -47,7 +47,7 @@ const EmployeeForm = ({ employee, onSuccess, onCancel }) => {
         city: employee.city || "",
         district: employee.district || "",
         subdistrict: employee.subdistrict || "",
-        address_detail: employee.address_detail || "",
+        address: employee.address || "",
         username: employee.username || "",
         email: employee.email || "",
         password: "",
@@ -233,13 +233,13 @@ const EmployeeForm = ({ employee, onSuccess, onCancel }) => {
         <div className="md:col-span-2">
           <label className="block font-medium">Detil Alamat</label>
           <textarea
-            name="address_detail"
-            value={form.address_detail}
+            name="address"
+            value={form.address}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />
-          {errors.address_detail && (
-            <p className="text-red-500 text-sm">{errors.address_detail}</p>
+          {errors.address && (
+            <p className="text-red-500 text-sm">{errors.address}</p>
           )}
         </div>
 

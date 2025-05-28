@@ -12,7 +12,7 @@ export const validationSchema = Yup.object().shape({
   city: Yup.string().required("Kota wajib diisi"),
   district: Yup.string().required("Kecamatan wajib diisi"),
   subdistrict: Yup.string().required("Kelurahan wajib diisi"),
-  address_detail: Yup.string().required("Detil alamat wajib diisi"),
+  address: Yup.string().required("Detil alamat wajib diisi"),
   username: Yup.string().required("Username wajib diisi"),
   email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
   password: Yup.string().when("isEdit", {

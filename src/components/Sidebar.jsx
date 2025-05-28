@@ -1,11 +1,16 @@
 import { FiBarChart2, FiUser } from 'react-icons/fi';
 import { Link, useNavigate } from "react-router-dom";
+import { logout as apiLogout } from "../api/AuthApi"; // pastikan path-nya benar
 
 const Sidebar = () => {
     const navigate = useNavigate();
 
-    const logout = () => {
-        localStorage.clear();
+    const logout = async () => {
+        try {
+            await apiLogout();
+        } catch (err) {
+            console.error("Logout gagal:", err);
+        }
         navigate("/login");
     };
 

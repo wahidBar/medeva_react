@@ -1,52 +1,43 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/employees"; // Ganti jika backend kamu ada di alamat berbeda
+const API_URL = "http://localhost:5000/api/employees";
+
+// Ambil token dari localStorage
+const getToken = () => localStorage.getItem("token");
 
 export const getEmployees = async () => {
-  try {
-    const response = await axios.get(API_URL);
-    return response.data;
-  } catch (error) {
-    console.error("Gagal mengambil data karyawan:", error);
-    throw error;
-  }
-};
-export const createEmployee = async (formData) => {
-  const res = await fetch("http://localhost:5000/api/employees", {
-    method: "POST",
-    body: formData,
+  const res = await axios.get(API_URL, {
+    // headers: {
+    //   Authorization: `Bearer ${getToken()}`,
+    // },
   });
+  return res.data;
+};
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Gagal menyimpan data karyawan");
-  }
-
-  return await res.json();
+export const createEmployee = async (formData) => {
+  const res = await axios.post(API_URL, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  return res.data;
 };
 
 export const updateEmployee = async (id, formData) => {
-  const res = await fetch(`http://localhost:5000/api/employees/${id}`, {
-    method: "PUT",
-    body: formData,
+  const res = await axios.put(`${API_URL}/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Gagal memperbarui data karyawan");
-  }
-
-  return await res.json();
+  return res.data;
 };
-
 
 export const deleteEmployee = async (id) => {
-  try {
-    await axios.delete(`${API_URL}/${id}`);
-  } catch (error) {
-    console.error("Gagal menghapus karyawan:", error);
-    throw error;
-  }
+  await axios.delete(`${API_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 };
-
-// export { createEmployee, deleteEmployee, getEmployees, updateEmployee };
